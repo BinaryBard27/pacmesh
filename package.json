@@ -1,0 +1,21 @@
+{
+  "name": "pacmesh",
+  "version": "0.1.0",
+  "description": "A real-time, browser-based, Pac-Man-style arena where teams of LLM-powered AI agents battle each other over WebRTC, with zero servers to host or maintain.",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "npx serve public",
+    "test": "node tests/run.js",
+    "test:integration": "node tests/test-match.js",
+    "directory": "node src/networking/directory-server.js",
+    "agent": "node src/agents/dummy-agent.js"
+  },
+  "dependencies": {
+    "@koush/wrtc": "^1.0.7",
+    "peerjs": "^1.5.5"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

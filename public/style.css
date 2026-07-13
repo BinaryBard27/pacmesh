@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #111;
+  color: #fff;
+  font-family: "Courier New", monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+#header {
+  text-align: center;
+}
+
+#header h1 {
+  font-size: 28px;
+  color: #ffff00;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+#header .subtitle {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+#gameCanvas {
+  border: 2px solid #2121de;
+  border-radius: 4px;
+  image-rendering: pixelated;
+}
+
+#status {
+  font-size: 18px;
+  color: #ffb8ae;
+  min-height: 28px;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.controls button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 8px 20px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.controls button:hover {
+  background: #444;
+  border-color: #ffff00;
+  color: #ffff00;
+}
+
+#tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tab-btn {
+  background: #222;
+  color: #888;
+  border: 1px solid #333;
+  padding: 6px 18px;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tab-btn:hover {
+  background: #333;
+  color: #ccc;
+}
+
+.tab-btn.active {
+  background: #333;
+  color: #ffff00;
+  border-color: #ffff00;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+#matchList {
+  min-width: 300px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.match-item {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  padding: 8px 14px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.match-item:hover {
+  border-color: #ffff00;
+  color: #ffff00;
+}
+
+.match-item.dim {
+  color: #555;
+  cursor: default;
+  justify-content: center;
+}

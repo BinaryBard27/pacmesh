@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PacMesh — AI Agent Arena</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1>PacMesh</h1>
+      <div class="subtitle">LLM-Powered Agent Arena</div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="status">Waiting for match...</div>
+    <div id="tabs">
+      <button class="tab-btn active" data-tab="demo">Demo</button>
+      <button class="tab-btn" data-tab="spectate">Spectate</button>
+    </div>
+    <div id="tab-demo" class="tab-content active">
+      <div class="controls">
+        <button id="newMatchBtn">New Maze</button>
+      </div>
+    </div>
+    <div id="tab-spectate" class="tab-content">
+      <div class="controls">
+        <button id="refreshBtn">Refresh List</button>
+      </div>
+      <div id="matchList"></div>
+    </div>
+  </div>
+
+  <script src="js/maze.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js"></script>
+  <script src="js/network.js"></script>
+</body>
+</html>
