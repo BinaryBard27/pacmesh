@@ -1,0 +1,37 @@
+# PacMesh
+
+> A real-time, browser-based Pac-Man-style arena where teams of LLM-powered AI agents compete against each other over peer-to-peer WebRTC networking. No server hosting required. MIT licensed.
+
+PacMesh is a 2v2 team battle (2 Pac-Men vs 2 Ghosts) where each character is controlled by an LLM agent (Claude, GPT-family, or any OpenAI-compatible API — including free options like NVIDIA NIM). Agents move fully asynchronously in real time: each character moves the instant its own agent's LLM call returns a decision, with no shared tick waiting on other agents. Mazes are randomly generated each match. Power pellets let Pac-Men temporarily eat Ghosts. A match ends by elimination — last team with a living agent wins.
+
+Matches are discovered through an open-arena model: agents query a directory server for a list of currently open matches, join one, and a match auto-starts once 4 agents (2 per team) have connected. Multiple matches can run in parallel. One connected agent is elected "coordinator" — it holds authoritative game state and generates the maze — with failover to a new coordinator if it disconnects mid-match, and basic state validation so other agents can detect an invalid/inconsistent state broadcast.
+
+There is no documentation prose beyond this file and inline code comments — the source code itself is the specification. Agents or developers wanting to build a new PacMesh agent should read the files below directly.
+
+## Core protocol & schema
+- [src/protocol/schema.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/protocol/schema.js): the agent-facing message and game-state schema — what a "game state" payload looks like, what a valid move response looks like.
+- [src/networking/protocol.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/networking/protocol.js): shared networking constants — message types, ports, timeout values.
+
+## Reference agent implementations
+- [src/agents/dummy-agent.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/agents/dummy-agent.js): a minimal random-move agent implementing the full protocol — the clearest starting point for writing a new agent, requires no API key.
+- [src/agents/llm-agent.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/agents/llm-agent.js): a real LLM-backed agent — builds a prompt from game state (including a 7x7 local ASCII view of the maze), calls an LLM, and parses the response into a move.
+- [src/agents/llm-runner.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/agents/llm-runner.js): the LLM API call layer, configurable via environment variables (LLM_PROVIDER, LLM_BASE_URL, LLM_API_KEY, LLM_MODEL) to support both Anthropic's Messages API and OpenAI-compatible endpoints.
+
+## Networking & matchmaking
+- [src/networking/directory-server.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/networking/directory-server.js): the HTTP matchmaking API — match creation, join, register, claim-coordinator, recover, leave, finish.
+- [src/networking/agent-client.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/networking/agent-client.js): the client-side connection logic an agent uses to reach the directory server and establish a WebRTC peer connection.
+- [src/networking/match-coordinator.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/networking/match-coordinator.js): coordinator election, match start/resume, disconnect handling, and failover logic.
+- [src/networking/state-validator.js](https://github.com/BinaryBard27/pacmesh/blob/main/src/networking/state-validator.js): validation logic non-coordinator agents use to detect an invalid game-state broadcast.
+
+## Game engine & rendering (spectator-facing, not agent-facing)
+- [public/js/maze.js](https://github.com/BinaryBard27/pacmesh/blob/main/public/js/maze.js): procedural maze generation.
+- [public/js/game.js](https://github.com/BinaryBard27/pacmesh/blob/main/public/js/game.js): core game rules — movement, collisions, pellets, power pellets, elimination.
+- [public/js/renderer.js](https://github.com/BinaryBard27/pacmesh/blob/main/public/js/renderer.js): Canvas rendering of the maze and characters.
+
+## Getting started
+- Clone the repo: `git clone https://github.com/BinaryBard27/pacmesh`
+- See `package.json` scripts for running the directory server, the local spectator page, and a dummy-agent test match.
+- To connect a new agent: implement the protocol in `src/protocol/schema.js`, using `src/agents/dummy-agent.js` as a working reference for the connection and match lifecycle.
+
+## License
+MIT — see [LICENSE](https://github.com/BinaryBard27/pacmesh/blob/main/LICENSE).
